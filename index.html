@@ -1,1 +1,92 @@
-<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css"><title>sisterhood</title><link href="/css/app.f8defee1.css" rel="preload" as="style"><link href="/css/chunk-vendors.ca7f275c.css" rel="preload" as="style"><link href="/js/app.078e8c0b.js" rel="preload" as="script"><link href="/js/chunk-vendors.b1901b17.js" rel="preload" as="script"><link href="/css/chunk-vendors.ca7f275c.css" rel="stylesheet"><link href="/css/app.f8defee1.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but sisterhood doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/js/chunk-vendors.b1901b17.js"></script><script src="/js/app.078e8c0b.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+   <div id="app" class="wrap">
+        <div class="top">
+            <div class="tit-area">
+                <span class="logo">
+                    <img src="image/logo.png" alt="여성이 보는 여성의 이야기 시스터후드">
+                </span>
+                <div class="tit-txt">
+                    <h1>시스터후드</h1>
+                    <p class="author">헤이메이트</p>
+                </div>
+            </div>
+            <div class="season-ctrl">
+                <button type="button" class="button is-primary" @click="sortSeason('all')">전체</button>
+                <button type="button" class="button is-primary" @click="sortSeason(1)">시즌1</button>
+                <button type="button" class="button is-primary" @click="sortSeason(2)">시즌2</button>
+                <button type="button" class="button is-primary" @click="sortSeason(3)">시즌3</button>
+                <button type="button" class="button is-primary" @click="sortSeason(4)">시즌4</button>
+
+                <ul class="link-list">
+                    <li v-if="season !== 1">
+                        <a href="https://www.podbbang.com/channels/1771727" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>팟빵</a>
+                    </li>
+                    <li v-if="!(season == 1 || season == 4)">
+                        <a href="https://podcasts.apple.com/us/podcast/%EC%8B%9C%EC%8A%A4%ED%84%B0%ED%9B%84%EB%93%9C/id1462838595" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>아이폰</a>
+                    </li>
+                    <li v-if="season !== 4">
+                        <a href="https://audioclip.naver.com/channels/1111" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>네이버 오디오 클립</a>
+                    </li>
+                </ul>
+            </div> 
+        </div>   
+        <div class="form-ctrl">
+            <button type="button" class="button is-primary" @click="sortCtrl">
+                <span class="icon is-small"><i class="mdi mdi-sort"></i></span>  
+                <span class="tx">{{ sortTx }}</span>  
+            </button>
+            <div class="input-search">
+                <input type="text" v-model="search">
+            </div>
+        </div>
+        <div class="list">
+            <h2 class="blind">아카이빙 리스트</h2>
+            <div class="collapse card" v-for="(episode, idx) in filteredData" :key="idx" :id="'episode' + idx">
+                <div class="collapse-trigger" role="button" @click="accordion($event)">
+                    <div class="card-header">
+                        <div class="card-header-title">
+                            <h2>{{ episode.title }}</h2>
+                            <a :href="episode.podcast" target="_blank" title="새창 열림">
+                                <span class="icon is-medium"><i class="mdi mdi-podcast"></i></span>
+                            </a>
+                        </div>
+                        <div class="card-header-icon">
+                            <span class="icon">
+                                <i class="mdi mdi-menu-up mdi-24px"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse-content"  style="display:none">
+                    <div class="card-content">
+                        <div class="content">
+                            <p class="main-link" v-if="episode.link">작품링크 : <a :href="episode.link" target="_blank" title="새창 열림">{{ episode.link }}</a></p>
+                            <h3 v-if="episode.relatedworks">오늘의 자매들</h3>
+                            <ul class="related">
+                                <li v-for="work in episode.relatedworks">
+                                    <h4>{{ work.title }}</h4>
+                                    <p><a :href="work.link" target="_blank" title="새창 열림">{{ work.link }}</a></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</body>
+<script src="js/app.js" type="module"></script>
+</html>
