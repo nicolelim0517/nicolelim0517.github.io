@@ -43,10 +43,10 @@ var app = new Vue({
                 let start, end;
                 if(this.season == 1) {
                     start = 0;
-                    end = 5;
+                    end = 27;
                 } else if (this.season == 2) {
-                    start = 6;
-                    end = 10;
+                    start = 28;
+                    end = 110;
                 }
                 filteredList = filteredList.filter((data) => {
                     return data.id >= start && data.id <= end
