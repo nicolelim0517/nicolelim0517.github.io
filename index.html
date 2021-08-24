@@ -7,9 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
-
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 </head>
 <body>
    <div id="app" class="wrap">
@@ -24,18 +22,19 @@
                 </div>
             </div>
             <div class="season-ctrl">
-                <button type="button" class="button is-primary" @click="sortSeason('all')">전체</button>
-                <button type="button" class="button is-primary" @click="sortSeason(1)">시즌1</button>
-                <button type="button" class="button is-primary" @click="sortSeason(2)">시즌2</button>
-                <button type="button" class="button is-primary" @click="sortSeason(3)">시즌3</button>
-                <button type="button" class="button is-primary" @click="sortSeason(4)">시즌4</button>
-
+                <div class="button-area">
+                    <button type="button" class="button is-primary" @click="sortSeason('all')">전체</button>
+                    <button type="button" class="button is-primary" @click="sortSeason(1)">시즌1</button>
+                    <button type="button" class="button is-primary" @click="sortSeason(2)">시즌2</button>
+                    <button type="button" class="button is-primary" @click="sortSeason(3)">시즌3</button>
+                    <button type="button" class="button is-primary" @click="sortSeason(4)">시즌4</button>
+                </div>
                 <ul class="link-list">
                     <li v-if="season !== 1">
                         <a href="https://www.podbbang.com/channels/1771727" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>팟빵</a>
                     </li>
                     <li v-if="!(season == 1 || season == 4)">
-                        <a href="https://podcasts.apple.com/us/podcast/%EC%8B%9C%EC%8A%A4%ED%84%B0%ED%9B%84%EB%93%9C/id1462838595" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>아이폰</a>
+                        <a href="https://podcasts.apple.com/us/podcast/%EC%8B%9C%EC%8A%A4%ED%84%B0%ED%9B%84%EB%93%9C/id1462838595" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>팟캐스트</a>
                     </li>
                     <li v-if="season !== 4">
                         <a href="https://audioclip.naver.com/channels/1111" target="_blank" title="새창 열림"><span class="icon is-small"><i class="mdi mdi-podcast"></i></span>네이버 오디오 클립</a>
@@ -44,10 +43,16 @@
             </div> 
         </div>   
         <div class="form-ctrl">
-            <button type="button" class="button is-primary" @click="sortCtrl">
-                <span class="icon is-small"><i class="mdi mdi-sort"></i></span>  
-                <span class="tx">{{ sortTx }}</span>  
-            </button>
+            <div class="ctrl-btn">
+                <button type="button" class="button is-primary" @click="sortCtrl">
+                    <span class="icon is-small"><i class="mdi mdi-sort"></i></span>  
+                    <span class="tx">{{ sortTx }}</span>  
+                </button>
+                <button type="button" class="button is-primary" id="btnFilter" @click="setFilterActive">
+                    <span class="icon is-small"><i class="mdi" v-bind:class="[filterActive ? 'mdi-filter' : 'mdi-filter-outline']"></i></span>  
+                    <span class="blind">필터</span>  
+                </button>
+            </div>
             <div class="input-search">
                 <input type="text" v-model="search">
             </div>
@@ -59,13 +64,13 @@
                     <div class="card-header">
                         <div class="card-header-title">
                             <h2>{{ episode.title }}</h2>
-                            <a :href="episode.podcast" target="_blank" title="새창 열림">
+                            <a :href="episode.podcast" target="_blank" title="새창 열림"  v-if="episode.podcast">
                                 <span class="icon is-medium"><i class="mdi mdi-podcast"></i></span>
                             </a>
                         </div>
                         <div class="card-header-icon">
                             <span class="icon">
-                                <i class="mdi mdi-menu-up mdi-24px"></i>
+                                <i class="mdi mdi-menu-down mdi-24px"></i>
                             </span>
                         </div>
                     </div>
@@ -73,13 +78,27 @@
                 <div class="collapse-content"  style="display:none">
                     <div class="card-content">
                         <div class="content">
-                            <p class="main-link" v-if="episode.link">작품링크 : <a :href="episode.link" target="_blank" title="새창 열림">{{ episode.link }}</a></p>
+                            <div class="main-link" v-if="episode.link">
+                                <p>작품링크</p>
+                                <a :href="episode.link" target="_blank" title="새창 열림" v-if="!(episode.link == '상영중' || episode.link == '방영중')">{{ episode.link }}</a>
+                                <p v-if="episode.link == '상영중' || episode.link == '방영중'">{{ episode.link }}</p>
+                            </div>
                             <h3 v-if="episode.relatedworks">오늘의 자매들</h3>
-                            <ul class="related">
+                            <ul class="related" v-if="episode.relatedworks">
                                 <li v-for="work in episode.relatedworks">
                                     <h4>{{ work.title }}</h4>
                                     <p><a :href="work.link" target="_blank" title="새창 열림">{{ work.link }}</a></p>
                                 </li>
+                            </ul>
+                            <h3 v-if="episode.recommendation">추천작</h3>
+                            <ul class="related" v-if="episode.recommendation">
+                                <li v-for="work in episode.recommendation">
+                                    <h4>{{ work.title }}</h4>
+                                    <p><a :href="work.link" target="_blank" title="새창 열림">{{ work.link }}</a></p>
+                                </li>
+                            </ul>
+                            <ul class="keywords-list" v-if="episode.keywords">
+                                <li v-for="keyword in episode.keywords" role="button" @click="getKeyword($event)">{{ keyword }}</li>
                             </ul>
                         </div>
                     </div>

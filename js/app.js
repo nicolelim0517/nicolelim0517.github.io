@@ -7,28 +7,38 @@ var app = new Vue({
     data() {
         return {
             episodes : [],
+            episodesLength : 0,
             search: '',
             searchedData: [],
             sortBy: 'newest',
             sortTx : '최신회부터',
-            season: 'all'
+            season: 'all',
+            lastItemId: 0,
+            selectedKeyword: '',
+            filterActive: false,
+            filteredList: [],
+            filterClass: 'mdi-filter-outline',
+            filterActiveClass: 'mdi-filter',
         }
     },
     created() {
         this.episodes = listdata
+        this.episodesLength = listdata.length
+        this.lastItemId = this.episodes[this.episodes.length - 1].id;
     },
     computed: {
         filteredData() {
-            let filteredList = this.episodes
+            this.filteredList = this.episodes;
+            
             if (this.search != '' && this.search) {
-                this.searchedData = filteredList.filter(
+                this.searchedData = this.filteredList.filter(
                     (data) => {
                         return data.title.toLowerCase().includes(this.search.toLowerCase());
                     });
-                filteredList = this.searchedData;
+                this.filteredList = this.searchedData;
             } 
 
-            filteredList = filteredList.sort((a, b) => {
+            this.filteredList = this.filteredList.sort((a, b) => {
                 let result
                 if(this.sortBy == 'oldest') {
                     a.id > b.id ? result = 1 : result = -1;
@@ -46,14 +56,34 @@ var app = new Vue({
                     end = 27;
                 } else if (this.season == 2) {
                     start = 28;
-                    end = 110;
+                    end = 108;
                 }
-                filteredList = filteredList.filter((data) => {
+                else if (this.season == 3) {
+                    start = 111;
+                    end = 131;
+                }
+                else if (this.season == 4) {
+                    start = 132;
+                    end = this.lastItemId;
+                }
+
+                this.filteredList = this.filteredList.filter((data) => {
                     return data.id >= start && data.id <= end
                 });
             }
-            return filteredList
-        }
+            if (this.selectedKeyword != '' && this.selectedKeyword) {
+                this.filteredList = this.filteredList.filter((data) => {
+                    return data.keywords.some((word) => {
+                        return word.includes(this.selectedKeyword);
+                    })
+                })
+            }
+            if(this.filteredList.length !== this.episodesLength) {
+                this.filterActive = true;
+            }
+            console.log(this.filterActive)
+            return this.filteredList
+        },
     },
     methods: {
         sortCtrl() {
@@ -63,21 +93,33 @@ var app = new Vue({
             }else {
                 this.sortBy = 'oldest'
                 this.sortTx = '첫회부터'
-
             }
         },
         sortSeason(target) {
-            this.season = target
+            this.season = target;
         },
         accordion(event) {
-            
-            let el = event.currentTarget.nextElementSibling
-            if(el.style.display == 'none') {
-                el.style.display = 'block';
+            let el = event.currentTarget;
+            let target = el.nextElementSibling;
+            if(target.style.display == 'none') {
+                target.style.display = 'block';
+                el.querySelector('.mdi-menu-down').classList.replace('mdi-menu-down', 'mdi-menu-up');
             }else {
-                el.style.display = 'none'
+                target.style.display = 'none'
+                el.querySelector('.mdi-menu-up').classList.replace('mdi-menu-up', 'mdi-menu-down');
             }
-        } 
+        }, 
+        getKeyword(event){
+            let el = event.currentTarget;
+            let word = el.innerHTML;
+            this.selectedKeyword = word;
+        },
+        setFilterActive() {
+            this.season = 'all';
+            this.selectedKeyword = '';
+            this.search = '';
+            this.filteredList = this.episodes;
+            this.filterActive = false;
+        }
     }
-
 })
