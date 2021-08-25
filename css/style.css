@@ -80,6 +80,7 @@ h1, h2, h3, h4, h5{font-weight:500;}
     .button {font-size:14px;padding:0 12px;height:32px;}
 
     .wrap {padding:30px 0;}
+    .wrap > div {padding:0 20px;}
     .tit-area {justify-content:center;margin-bottom:20px;}
     .tit-area .logo {width:100px;}
     .tit-area .tit-txt {margin-left:15px;}
