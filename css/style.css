@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5{font-weight:500;}
 .season-ctrl .link-list li a {color:#7957d5;font-size:16px;}
 
 .form-ctrl {display:flex;justify-content:space-between;margin-bottom:20px;align-items:center;}
-.form-ctrl .input-search input {height:32px;width:250px;border-radius:4px;border:1px solid #aaa;padding:0 15px;}
+.form-ctrl .input-search input {height:32px;width:200px;border-radius:4px;border:1px solid #aaa;padding:0 15px;}
 
 .card { background-color: #fff;border-radius: .25rem;box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);max-width: 100%;position: relative}
 .card-content:last-child,
@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5{font-weight:500;}
     .season-ctrl .link-list li a {font-size:14px;}
     .form-ctrl .button .tx {position: absolute;overflow: hidden;width: 1px;height: 1px;padding: 0;margin: -1px;border: 0;clip: rect(0,0,0,0);}
 
-    .card-header-title {padding:15px 12px;}
+    .card-header-title {padding:15px 0 15px 12px;}
     .card-header-title h2 {font-size:14px;}
     .card-header-icon {padding:0 10px;}
     .card-content .content .main-link {font-size:14px;}

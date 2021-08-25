@@ -80,7 +80,9 @@
                         <div class="content">
                             <div class="main-link" v-if="episode.link">
                                 <p>작품링크</p>
-                                <a :href="episode.link" target="_blank" title="새창 열림" v-if="!(episode.link == '상영중' || episode.link == '방영중')">{{ episode.link }}</a>
+                                <ul v-if="!(episode.link == '상영중' || episode.link == '방영중')">
+                                    <li v-for="a in episode.link"><a :href="a" target="_blank" title="새창 열림" >{{ a }}</a></li>
+                                </ul>
                                 <p v-if="episode.link == '상영중' || episode.link == '방영중'">{{ episode.link }}</p>
                             </div>
                             <h3 v-if="episode.relatedworks">오늘의 자매들</h3>
