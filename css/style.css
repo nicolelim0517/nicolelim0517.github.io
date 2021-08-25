@@ -55,7 +55,7 @@ h1, h2, h3, h4, h5{font-weight:500;}
 .card-header:last-child {border-bottom-left-radius: .25rem;border-bottom-right-radius: .25rem}
 .card-header {background-color: transparent;align-items: stretch;box-shadow: 0 .125em .25em rgba(10,10,10,.1);display: flex}
 .card-header-title {align-items: center;display: inline-flex;align-items:center;flex-grow: 1;padding: .75rem 1rem;}
-.card-header-title h2 {font-size:18px;font-weight:500;color: #111;}
+.card-header-title h2 {width:100%;font-size:18px;font-weight:500;color: #111;}
 .card-header-title .icon {display:inline-block;margin-left:20px;font-size:18px;color:#7957d5}
 .card-header-icon {display:flex;align-items:center;padding:0 15px;}
 .card-content .content {padding:20px;}
