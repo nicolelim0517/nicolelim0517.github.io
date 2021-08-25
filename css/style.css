@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5{font-weight:500;}
 .card-content .content h4 {color:#666}
 .card-content .content .related a {color:#7957d5}
 .keywords-list {margin-top:20px;}
-.keywords-list li {display:inline-block;height:20px;line-height:20px;font-size:14px;padding:0 8px;border-radius:8px;border:1px solid #aaa;margin:0 2px;}
+.keywords-list li {display:inline-block;height:20px;line-height:18px;font-size:13px;padding:0 8px;border-radius:8px;border:1px solid #aaa;margin:0 2px;}
 
 
 /* 모바일 */
@@ -100,4 +100,6 @@ h1, h2, h3, h4, h5{font-weight:500;}
     .card-content .content h4 {font-size:13px;}
     .card-content .content .main-link a, 
     .card-content .content .related a {word-break: break-all;}
+    .keywords-list li {font-size:12px;height:18px;line-height:16px;}
+
  }
